@@ -1,0 +1,2 @@
+# minigame
+Just for fun
