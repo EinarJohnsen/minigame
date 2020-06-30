@@ -1,6 +1,7 @@
 import subprocess
-# Helper functions
+import math
 
+# Helper functions
 def is_finished(the_map, input_x, input_y):
     if the_map[(input_x, input_y)] == "X":
         print("You are finished, congratz - The reward was a joke. LOLz")
@@ -33,8 +34,8 @@ def traverse_tree(direction, the_map, current_x, current_y, new_pos_x, new_pos_y
 
 def print_state():
     temp_list = list(local_dict.values())
-
-    chunks = [temp_list[x:x+20] for x in range(0, len(temp_list), 20)]
+    list_len = int(math.sqrt(len(temp_list)))
+    chunks = [temp_list[x:x+list_len] for x in range(0, len(temp_list), list_len)]
     for chunk in chunks:
         print("".join(chunk)+"\n")
 
