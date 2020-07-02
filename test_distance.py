@@ -5,19 +5,19 @@ import time
 
 window = Tk()
 
-ROW, COL = 15, 15
 
-board, start, end = bg((ROW, COL))
+def initialize_stuff(row_size, col_size):
+    # ROW, COL = 15, 15
 
+    board, start, end = bg((row_size, col_size))
 
-np_arr = [0 if x == "*" else 2 if x == "X" else 1 for x in board.values()]
+    np_arr = [0 if x == "*" else 2 if x == "X" else 1 for x in board.values()]
 
+    _arr = np.array(np_arr).reshape((15, 15))
+    _arr_old = _arr.copy()
+    arr_old[start][end] = 5
 
-arr = np.array(np_arr).reshape((15, 15))
-arr_old = arr.copy()
-arr_old[start][end] = 5
-
-results = []
+    return arr, arr_old, start, end
 
 
 # Inspiration from: https://www.101computing.net/backtracking-maze-path-finder/
@@ -46,9 +46,6 @@ def backtracker(board, i, j, results):
         board[i][j] = 4
 
 
-my_dict = {}
-
-
 def get_color(loca_value):
     if loca_value == 0:
         return "black"
@@ -64,9 +61,9 @@ def get_color(loca_value):
         return "gray"
 
 
-def create_labels():
-    for x in range(ROW):
-        for y in range(COL):
+def create_labels(arr_old, row, col):
+    for x in range(row):
+        for y in range(col):
 
             value = arr_old[x][y]
 
@@ -87,10 +84,14 @@ def after_runner():
     for x in results:
         my_dict[x[0]].config(bg=get_color(x[1]))
         window.update_idletasks()
-        time.sleep(0.1)
+        time.sleep(0.2)
 
 
-backtracker(arr, start, end, results)
-create_labels()
-window.after(2000, after_runner)
-window.mainloop()
+if __name__ == "__main__":
+    my_dict = {}
+    results = []
+    arr, arr_old, start, end = initialize_stuff(15, 15)
+    backtracker(arr, start, end, results)
+    create_labels(arr_old, 15, 15)
+    window.after(2000, after_runner)
+    window.mainloop()
